@@ -4,12 +4,20 @@ import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { secretKey } from '../jwtconfig.js';
 
-function generateAccessToken(id, roles) {
+function generateAccessToken(id, roles, callback) {
     const payload = {
         id,
         roles
     }
-    return jwt.sign(payload, secretKey, { expiresIn: "1h" });
+
+    jwt.sign(payload, secretKey, { expiresIn: '1h' }, (err, token) => {
+        if (err) {
+            console.error('Error signing JWT:', err);
+            callback(err, null);
+        } else {
+            callback(null, token);
+        }
+    });
 }
 
 export default class AuthController {
@@ -53,9 +61,13 @@ export default class AuthController {
                 return res.status(400).json('The username or password is incorrect');
             }
 
-            const token = generateAccessToken(user._id, user.roles);
-
-            return res.json({ token });
+            generateAccessToken(user._id, user.roles, (err, accessToken) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    return res.json({ accessToken });
+                }
+            });
         } catch (error) {
             console.log(error);
         }

@@ -1,4 +1,3 @@
-// graphql/mutations.js
 import {
     GraphQLObjectType,
     GraphQLString,

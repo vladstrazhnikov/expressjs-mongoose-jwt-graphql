@@ -4,7 +4,6 @@ import {
     GraphQLList,
 } from 'graphql';
 import { MemoryType } from '../types.js';
-import { Memory } from '../schemas.js';
 import { getMemories, getMemory } from './resolvers.js';
 
 export const Query = new GraphQLObjectType({
