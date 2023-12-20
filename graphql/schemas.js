@@ -1,7 +1,7 @@
 import { GraphQLSchema } from 'graphql';
 import mongoose from 'mongoose';
-import { Query } from './queries.js';
-import { Mutation } from './mutations.js';
+import { Query } from './memory/queries.js';
+import { Mutation } from './memory/mutations.js';
 
 export const schema = new GraphQLSchema({
     query: Query,
