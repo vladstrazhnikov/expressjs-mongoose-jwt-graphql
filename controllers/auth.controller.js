@@ -1,4 +1,4 @@
-import { Role, User } from '../graphql/schemas.js';
+import { User, Role } from '../models/User.model.js';
 import bcrypt from 'bcryptjs';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
@@ -9,8 +9,18 @@ function generateAccessToken(id, roles) {
         id,
         roles
     }
-    
+
     return jwt.sign(payload, secretKey, { expiresIn: "1h" });
+}
+
+function verifyJwt(token, secretKey, callback) {
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, decoded);
+        }
+    });
 }
 
 export default class AuthController {
@@ -60,9 +70,5 @@ export default class AuthController {
         } catch (error) {
             console.log(error);
         }
-    }
-
-    async getUsers() {
-
     }
 }
