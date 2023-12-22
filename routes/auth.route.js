@@ -10,6 +10,6 @@ authRouter.post('/signup', [
     check('password', 'Password must be at least 6 symbols').isLength({ min: 6, max: 16 }),
 ], authController.signup);
 authRouter.post('/signin', authController.signin);
-authRouter.get('/users', authController.getUsers);
+// authRouter.get('/users', authController.getUsers);
 
 export default authRouter;

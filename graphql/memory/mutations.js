@@ -25,11 +25,12 @@ export const Mutation = new GraphQLObjectType({
         updateMemory: {
             type: MemoryType,
             args: {
-                title: { type: new GraphQLNonNull(GraphQLString) },
+                id: { type: GraphQLString },
+                title: { type: GraphQLString },
                 description: { type: GraphQLString },
-                date: { type: new GraphQLNonNull(GraphQLString) },
-                media: { type: new GraphQLNonNull(GraphQLString) },
-                coordinates: { type: new GraphQLList(GraphQLFloat) },
+                date: { type: GraphQLString },
+                media: { type: GraphQLString },
+                coordinates: { type: GraphQLFloat },
             },
             resolve: updateMemory,
         },
