@@ -30,14 +30,22 @@ export const getMemories = async (parent, args) => {
 }
 
 export const updateMemory = async (parent, args, context) => {
-    const filter = { _id: args.id };
-    const update = {
-        title: args.title,
-        description: args.description,
-        date: args.date,
-        media: args.media,
-        coordinates: args.coordinates,
-    };
+    const bearerToken = context.headers.authorization;
+    const token = bearerToken.split(' ')[1];
+    const decoded = jwt.verify(token, secretKey);
 
-    await Memory.findByIdAndUpdate(filter, update);
+    const memory = await Memory.findById(args.id);
+
+    if (memory.ownerId === decoded.id) {
+        const filter = { _id: args.id };
+        const update = {
+            title: args.title,
+            description: args.description,
+            date: args.date,
+            media: args.media,
+            coordinates: args.coordinates,
+        };
+
+        return await Memory.findByIdAndUpdate(filter, update);
+    }
 }
